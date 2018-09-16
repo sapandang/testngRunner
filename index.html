@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1,minimal-ui" name="viewport">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/theme/default.css">
+</head>
+
+<body style="height:100%">
+    <div id="app" style="height:100%">
+       
+            <md-toolbar class="md-primary" md-elevation="1">
+                    <h3 class="md-title" style="flex: 1">Testng-Runner</h3>
+                    <md-button>Tests</md-button>
+                    <md-button class="md-primary">Debug</md-button>
+                  </md-toolbar>
+
+        <!-- Table for viewing the tests-->
+        <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header style="height:91%">
+            <md-table-toolbar>
+                <div class="md-toolbar-section-start">
+                    <h1 class="md-title">Testng-Tests</h1>
+                </div>
+
+                <md-field md-clearable class="md-toolbar-section-end">
+                    <md-input placeholder="Search by class..." v-model="search" @input="searchOnTable" />
+                </md-field>
+            </md-table-toolbar>
+
+            <md-table-empty-state md-label="No users found" :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
+                <md-button class="md-primary md-raised" @click="newUser">Create New User</md-button>
+            </md-table-empty-state>
+
+            <md-table-row slot="md-table-row" slot-scope="{ item }">
+                <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+                <md-table-cell md-label="Class" md-sort-by="class">{{ item.class }}</md-table-cell>
+                <md-table-cell md-label="Method" md-sort-by="method">{{ item.method }}</md-table-cell>
+                <md-table-cell md-label="Description" md-sort-by="desciption">{{ item.description }}</md-table-cell>
+                <md-table-cell md-label="Status" md-sort-by="status">{{ item.method }}</md-table-cell>
+                <md-table-cell md-label="Action">
+                        <md-button class="md-raised md-primary">Run</md-button>
+                   </md-table-cell>
+            </md-table-row>
+        </md-table>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-material@beta"></script>
+    <script>
+        Vue.use(VueMaterial.default)
+
+        new Vue({
+            el: '#app',
+            data: {
+                search: null,
+                searched: [],
+                users: [
+                    {
+                        id: 1,
+                        class: "An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. The top, right, bottom, and left properties are used to position the element.",
+                        method: "An element with position: fixed; is positioned relative to the viewport, which means it always stays in the same place even if the page is scrolled. The top, right, bottom, and left properties are used to position the element.",
+                        description: "Male",
+                        action: "Assistant Media Planner"
+                    }
+                ]
+            },
+            methods: {
+                newUser: function () {
+                    window.alert('Noop')
+                },
+                searchOnTable: function () {
+                    this.searched = searchByName(this.users, this.search)
+                }
+            },
+            created: function () {
+                for (i = 0; i < 50; i++) {
+                    this.users.push({
+                        id: 1,
+                        class: "Shawna Dubbin",
+                        method: "sdubbin0@geocities.com",
+                        description: "Male",
+                        action: "Assistant Media Planner"
+                    });
+                }
+                this.searched = this.users
+            }
+        })
+    </script>
+</body>
+
+</html>
